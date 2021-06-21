@@ -1,4 +1,4 @@
-module github.com/altiby/hw01_hello_otus
+module altiby/otus_hw/hw01_hello_otus
 
 go 1.16
 
