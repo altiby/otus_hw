@@ -7,7 +7,7 @@ import (
 	"unicode"
 )
 
-// ErrInvalidString error invalid string
+// ErrInvalidString error invalid string.
 var ErrInvalidString = errors.New("invalid string")
 
 func Unpack(input string) (string, error) {
