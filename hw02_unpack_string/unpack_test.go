@@ -2,10 +2,10 @@ package hw02unpackstring
 
 import (
 	"errors"
-	"github.com/stretchr/testify/require"
 	"testing"
-)
 
+	"github.com/stretchr/testify/require"
+)
 
 func TestUnpack(t *testing.T) {
 	tests := []struct {

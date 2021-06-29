@@ -9,7 +9,6 @@ import (
 
 var ErrInvalidString = errors.New("invalid string")
 
-
 func Unpack(input string) (string, error) {
 	builder := strings.Builder{}
 	runes := []rune(input)
@@ -31,7 +30,7 @@ func getStringFormLexeme(lex []rune) string {
 	var r rune
 	var counter int
 	firstSlash := false
-	if len(lex) > 0 && isSlash(lex[0])  {
+	if len(lex) > 0 && isSlash(lex[0]) {
 		firstSlash = true
 	}
 	switch {
@@ -68,15 +67,14 @@ func getLexemes(runes []rune) (result [][]rune, err error) {
 		}
 		if isEndOfLex(runes, curPosition) {
 			result = append(result, runes[startPosition:curPosition+1])
-			startPosition = curPosition+1
+			startPosition = curPosition + 1
 		}
 	}
 	return
 }
 
 func isEndOfLex(runes []rune, index int) bool {
-	lenRunes := len(runes)
-	if index+1 >= lenRunes {
+	if index+1 >= len(runes) {
 		return true
 	}
 	isSlashedSlash := false
@@ -92,7 +90,7 @@ func isEndOfLex(runes []rune, index int) bool {
 		return true
 	}
 
-	if !unicode.IsDigit(nextSym) && ! isSlashedSlash {
+	if !unicode.IsDigit(nextSym) && !isSlashedSlash {
 		return true
 	}
 
