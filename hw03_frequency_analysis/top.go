@@ -13,7 +13,7 @@ func MultiReplacer(data string, symbols ...rune) string {
 		for _, symbol := range symbols {
 			if d == symbol {
 				putToBuilder = false
-				continue
+				break
 			}
 		}
 		if putToBuilder {
@@ -33,16 +33,11 @@ type wordStruct struct {
 	Count int
 }
 
-func Top10(text string) (ret []string) {
-	// разобьем текст на строки
-	lines := strings.Fields(text)
-	// разобьем строки на слова
-	words := make([]string, 0, len(lines)*20)
-	for _, line := range lines {
-		words = append(words, strings.Split(line, " ")...)
-	}
+func Top10(text string) []string {
+	ret := make([]string, 0, 10)
+	words := strings.Fields(text)
 	wordsMap := make(map[string]int, len(words)/5)
-	// подсчитаем количество слов предварительно нормализовав их
+
 	for _, word := range words {
 		nword := normalize(word)
 		if len(nword) == 0 {
@@ -50,7 +45,7 @@ func Top10(text string) (ret []string) {
 		}
 		wordsMap[nword]++
 	}
-	// запишем слова в структуры и отсортируем их
+
 	ws := make([]wordStruct, 0, len(wordsMap))
 	for key, value := range wordsMap {
 		ws = append(ws, wordStruct{
@@ -66,7 +61,6 @@ func Top10(text string) (ret []string) {
 		return ws[i].Count > ws[j].Count
 	})
 
-	// выведем первые 10 (если есть)
 	for i := 0; i < 10 && i < len(ws); i++ {
 		ret = append(ret, ws[i].Data)
 	}
