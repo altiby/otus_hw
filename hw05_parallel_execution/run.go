@@ -35,7 +35,7 @@ func Run(tasks []Task, n, m int) error {
 	defer close(tasksChain)
 	wg := &sync.WaitGroup{}
 
-	var errCounter int32 = 0
+	var errCounter int32
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		go worker(ctx, wg, tasksChain, &errCounter)
