@@ -7,7 +7,7 @@ import (
 	"sync/atomic"
 )
 
-// ErrErrorsLimitExceeded Limit error
+// ErrErrorsLimitExceeded Limit error.
 var ErrErrorsLimitExceeded = errors.New("errors limit exceeded")
 
 type Task func() error
