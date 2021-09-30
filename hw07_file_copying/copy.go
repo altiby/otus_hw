@@ -54,7 +54,7 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 	var writtenByte int64
 	for {
 		readByte, err := inputFile.Read(buffer)
-		if err == nil || err == io.EOF {
+		if err == nil || errors.Is(err, io.EOF) {
 			if limit > 0 && writtenByte+int64(readByte) > limit {
 				readByte = int(limit - writtenByte)
 				err = io.EOF
@@ -65,7 +65,7 @@ func Copy(fromPath, toPath string, offset, limit int64) error {
 			if writeErr != nil {
 				return fmt.Errorf("failed write output file %w", writeErr)
 			}
-			if err == io.EOF {
+			if errors.Is(err, io.EOF) {
 				break
 			}
 		} else {

@@ -1,4 +1,4 @@
-module github.com/altiby/hw07_file_copying/hw07_file_copying
+module github.com/altiby/otus_hw/hw07_file_copying
 
 go 1.16
 
