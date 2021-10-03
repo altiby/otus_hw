@@ -26,10 +26,10 @@ func RunCmd(cmd []string, env Environment) (returnCode int) {
 	}
 	err := command.Run()
 	if err != nil {
-		exitError := exec.ExitError{}
+		exitError := &exec.ExitError{}
 		if errors.As(err, &exitError) {
 			return exitError.ExitCode()
 		}
 	}
-	return -1
+	return 0
 }
