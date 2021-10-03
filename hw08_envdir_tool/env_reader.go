@@ -73,14 +73,15 @@ func ReadDir(dir string) (Environment, error) {
 
 	env := make(Environment, len(dirData))
 	for k, v := range dirData {
-		if len(v) == 0 {
+		nd := normalizeData(v)
+		if len(nd) == 0 {
 			env[k] = EnvValue{
 				Value:      "",
 				NeedRemove: true,
 			}
 		} else {
 			env[k] = EnvValue{
-				Value:      normalizeData(v),
+				Value:      nd,
 				NeedRemove: false,
 			}
 		}
