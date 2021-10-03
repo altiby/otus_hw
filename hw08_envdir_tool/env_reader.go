@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -44,7 +45,7 @@ func readFileContent(fileName string) ([]byte, error) {
 	defer file.Close()
 	reader := bufio.NewReader(file)
 	data, _, err := reader.ReadLine()
-	if err == io.EOF {
+	if errors.Is(err, io.EOF) {
 		return []byte{}, nil
 	}
 	if err != nil {
@@ -83,7 +84,6 @@ func ReadDir(dir string) (Environment, error) {
 				NeedRemove: false,
 			}
 		}
-
 	}
 	return env, nil
 }
