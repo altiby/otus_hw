@@ -10,10 +10,15 @@ import (
 )
 
 var (
-	ErrNoStructType            = errors.New("validate support only struct type")
-	ErrUnsupportedFieldType    = errors.New("unsupported field type")
-	ErrUnsupportedConstraint   = errors.New("unsupported constraint")
-	ErrConstraintCheckFailed   = errors.New("constraint check failed")
+	// ErrNoStructType validate support only struct type.
+	ErrNoStructType = errors.New("validate support only struct type")
+	// ErrUnsupportedFieldType unsupported field type.
+	ErrUnsupportedFieldType = errors.New("unsupported field type")
+	// ErrUnsupportedConstraint unsupported constraint.
+	ErrUnsupportedConstraint = errors.New("unsupported constraint")
+	// ErrConstraintCheckFailed constraint check failed.
+	ErrConstraintCheckFailed = errors.New("constraint check failed")
+	// ErrInvalidConstraintFormat invalid constraint format.
 	ErrInvalidConstraintFormat = errors.New("invalid constraint format")
 )
 
@@ -25,13 +30,13 @@ type ValidationError struct {
 type ConstraintType string
 
 const (
-	IntConstraintTypeMin ConstraintType = "min"
-	IntConstraintTypeMax ConstraintType = "max"
-	IntConstraintTypeIn  ConstraintType = "in"
+	intConstraintTypeMin ConstraintType = "min"
+	intConstraintTypeMax ConstraintType = "max"
+	intConstraintTypeIn  ConstraintType = "in"
 
-	StringConstraintTypeLen    ConstraintType = "len"
-	StringConstraintTypeRegexp ConstraintType = "regexp"
-	StringConstraintTypeIn     ConstraintType = "in"
+	stringConstraintTypeLen    ConstraintType = "len"
+	stringConstraintTypeRegexp ConstraintType = "regexp"
+	stringConstraintTypeIn     ConstraintType = "in"
 )
 
 type ValidationErrors []ValidationError
@@ -108,7 +113,7 @@ func checkIntConstraint(constraint string, field reflect.Value) error {
 		return err
 	}
 	switch constraintType {
-	case IntConstraintTypeMin:
+	case intConstraintTypeMin:
 		val, err := strconv.Atoi(constraintValue)
 		if err != nil {
 			return ErrInvalidConstraintFormat
@@ -116,7 +121,7 @@ func checkIntConstraint(constraint string, field reflect.Value) error {
 		if field.Int() < int64(val) {
 			return ErrConstraintCheckFailed
 		}
-	case IntConstraintTypeMax:
+	case intConstraintTypeMax:
 		val, err := strconv.Atoi(constraintValue)
 		if err != nil {
 			return ErrInvalidConstraintFormat
@@ -124,7 +129,7 @@ func checkIntConstraint(constraint string, field reflect.Value) error {
 		if field.Int() > int64(val) {
 			return ErrConstraintCheckFailed
 		}
-	case IntConstraintTypeIn:
+	case intConstraintTypeIn:
 		listIn := strings.Split(constraintValue, ",")
 		found := false
 		for _, s := range listIn {
@@ -151,7 +156,7 @@ func checkStringConstraint(constraint string, field reflect.Value) error {
 		return err
 	}
 	switch constraintType {
-	case StringConstraintTypeLen:
+	case stringConstraintTypeLen:
 		val, err := strconv.Atoi(constraintValue)
 		if err != nil {
 			return ErrInvalidConstraintFormat
@@ -159,7 +164,7 @@ func checkStringConstraint(constraint string, field reflect.Value) error {
 		if len(field.String()) != val {
 			return ErrConstraintCheckFailed
 		}
-	case StringConstraintTypeRegexp:
+	case stringConstraintTypeRegexp:
 		mateched, err := regexp.MatchString(constraintValue, field.String())
 		if err != nil {
 			return ErrInvalidConstraintFormat
@@ -167,7 +172,7 @@ func checkStringConstraint(constraint string, field reflect.Value) error {
 		if !mateched {
 			return ErrConstraintCheckFailed
 		}
-	case StringConstraintTypeIn:
+	case stringConstraintTypeIn:
 		listIn := strings.Split(constraintValue, ",")
 		found := false
 		for _, s := range listIn {
