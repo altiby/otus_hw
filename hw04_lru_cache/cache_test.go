@@ -49,8 +49,43 @@ func TestCache(t *testing.T) {
 		require.Nil(t, val)
 	})
 
-	t.Run("purge logic", func(t *testing.T) {
-		// Write me
+	t.Run("pop last element", func(t *testing.T) {
+		c := NewCache(3)
+		wasInCache := c.Set("1", 1)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("2", 2)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("3", 3)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("4", 4)
+		require.False(t, wasInCache)
+
+		_, ok := c.Get("1")
+		require.False(t, ok)
+	})
+
+	t.Run("pop old element", func(t *testing.T) {
+		c := NewCache(3)
+		wasInCache := c.Set("1", 1)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("2", 2)
+		require.False(t, wasInCache)
+
+		wasInCache = c.Set("3", 3)
+		require.False(t, wasInCache)
+
+		_, ok := c.Get("1")
+		require.True(t, ok)
+
+		wasInCache = c.Set("4", 4)
+		require.False(t, wasInCache)
+
+		_, ok = c.Get("2")
+		require.False(t, ok)
 	})
 }
 
