@@ -2,7 +2,6 @@ package hw10programoptimization
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"io"
 	"regexp"
@@ -21,6 +20,9 @@ type User struct {
 	Address  string
 }
 
+//easyjson:json
+type users [100000]User
+
 type DomainStat map[string]int
 
 func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
@@ -31,29 +33,22 @@ func GetDomainStat(r io.Reader, domain string) (DomainStat, error) {
 	return countDomains(u, domain)
 }
 
-type users [100000]User
-
 func getUsers(r io.Reader) (result users, err error) {
 	buffer := bufio.NewReader(r)
-	delim := byte('\n')
 	counter := 0
-	var line []byte
+	var data []byte
 	for {
-		line, err = buffer.ReadBytes(delim)
-		if err != nil && !errors.Is(err, io.EOF) {
-			return
+		data, _ = buffer.ReadSlice('\n')
+		if len(data) == 0 {
+			break
 		}
-
-		if marshalErr := easyjson.Unmarshal(line, &result[counter]); marshalErr != nil {
+		if marshalErr := easyjson.Unmarshal(data, &result[counter]); marshalErr != nil {
 			err = marshalErr
-			return
-		}
-		if errors.Is(err, io.EOF) {
-			err = nil
 			return
 		}
 		counter++
 	}
+	return
 }
 
 func countDomains(u users, domain string) (DomainStat, error) {
