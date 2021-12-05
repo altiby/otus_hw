@@ -1,9 +1,12 @@
+//go:build bench
 // +build bench
 
 package hw10programoptimization
 
 import (
 	"archive/zip"
+	"os"
+	"runtime/pprof"
 	"testing"
 	"time"
 
@@ -34,9 +37,13 @@ func TestGetDomainStat_Time_And_Memory(t *testing.T) {
 		b.StartTimer()
 		stat, err := GetDomainStat(data, "biz")
 		b.StopTimer()
+		file, _ := os.Create("./mprofile")
+		defer file.Close()
+		pprof.WriteHeapProfile(file)
 		require.NoError(t, err)
 
 		require.Equal(t, expectedBizStat, stat)
+
 	}
 
 	result := testing.Benchmark(bench)
