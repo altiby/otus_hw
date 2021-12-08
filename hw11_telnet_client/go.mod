@@ -1,4 +1,4 @@
-module github.com/altyby/otus_hw/hw11_telnet_client
+module github.com/altiby/otus_hw/hw11_telnet_client
 
 go 1.16
 
